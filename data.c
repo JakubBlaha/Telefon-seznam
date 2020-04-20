@@ -58,9 +58,14 @@ bool najdiDalsiCislo(Tseznam *seznam, char jmeno[], uint *cislo)
 {
     Tzaznam zaznam;
 
-    for (int i = seznam->nalezeny + 1; i < MAXLEN; i++)
+    for (int i = seznam->nalezeny + 1; i < MAXSEZNAM; i++)
     {
         zaznam = seznam->zaznam[i];
+
+        // Přeskočíme neplatné záznamy
+        if (!zaznam.platny) {
+            continue;
+        }
 
         if (strcmp(zaznam.jmeno, jmeno) == 0)
         {
