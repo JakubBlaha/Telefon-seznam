@@ -3,11 +3,13 @@
 Je to unsigned int. Bezznamnkové číslo. Nemůže jít do záportu, ale zato muže jít do dvakrát většího kladu.
 
 **Jak editnu strukturu?**
+
 https://stackoverflow.com/questions/330793/how-to-initialize-a-struct-in-accordance-with-c-programming-language-standards
 
 `MY_TYPE a = { .flag = true, .value = 123, .stuff = 0.456 };`
 
 **Jak napíšu v C multiline string do sourcu?**
+
 https://jameshfisher.com/2016/11/30/c-multiline-literal/
 
 **Jak poznám, že jsou dva stringy stejné?**

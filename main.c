@@ -94,15 +94,15 @@ void vypisSeznam(Tseznam *seznam)
     Tzaznam zaznam;
 
     // Vypíšeme...
-    for (int i = 0; i < seznam->pocet; i++)
+    for (int i = 0; i < MAXSEZNAM; i++)
     {
         zaznam = seznam->zaznam[i];
 
         // Pokud záznam není platný, přeskočíme ho a nebudeme ho vypisovat
-        // if (!zaznam.platny)
-        // {
-        //     continue;
-        // }
+        if (!zaznam.platny)
+        {
+            continue;
+        }
 
         // Jinak ho vypíšeme
         vypisZaznam(i, seznam->zaznam[i]);
@@ -211,7 +211,7 @@ int main(void)
     vlozZaznam(&seznam, "open", 1234);
     vlozZaznam(&seznam, "open", 4321);
     vlozZaznam(&seznam, "source", 1111);
-    vlozZaznam(&seznam, "GitHub", 2222);
+    vlozZaznam(&seznam, "github", 2222);
 
     int volba;
 

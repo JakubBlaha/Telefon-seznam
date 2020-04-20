@@ -12,9 +12,9 @@ void resetujSeznam(Tseznam *seznam)
     // Nemusíme nic přemazávat, stačí nastavit pocet záznamů na 0
     seznam->pocet = 0;
 
-    for (int i = 0; i < MAXSEZNAM; i++)
-    {
-        seznam->zaznam[i].platny = false;
+    // Nastavíme všechny záznamy na neplatné
+    for (int i = 0; i < MAXSEZNAM; i++) {
+        seznam -> zaznam[i].platny = false;
     }
 
     // Resetujeme i hledání
@@ -100,22 +100,43 @@ void vymena(Tseznam *seznam, int a, int b)
     seznam->zaznam[b] = pom;
 }
 
+int porovnej(Tzaznam a, Tzaznam b)
+{
+    int result;
+    if (a.platny == b.platny)
+    {
+        result = strcmp(a.jmeno, b.jmeno);
+    }
+    else if (a.platny)
+    {
+        result = -1;
+    }
+    else
+    {
+        result = 1;
+    }
+
+    return result;
+}
+
 void sort(Tseznam *seznam)
 {
-    int minIndex = 0;
-
-    for (int i = 0; i < MAXSEZNAM; i++)
+    // Velice jednoduchý selection sort :)
+    for (int i = 0; i < MAXSEZNAM - 1; i++)
     {
+        int minIndex = i;
         for (int j = i + 1; j < MAXSEZNAM; j++)
         {
-            printf("%s, %s\n", seznam->zaznam[j].jmeno, seznam->zaznam[minIndex].jmeno);
-            if (strcmp(seznam->zaznam[j].jmeno, seznam->zaznam[minIndex].jmeno) > 0)
+            if (porovnej(seznam->zaznam[j], seznam->zaznam[minIndex]) < 0)
             {
                 minIndex = j;
             }
         }
 
-        vymena(seznam, i, minIndex);
+        if (i != minIndex)
+        {
+            vymena(seznam, i, minIndex);
+        }
     }
 }
 
@@ -123,39 +144,6 @@ void aktualizujSeznam(Tseznam *seznam)
 {
     // Zresetujeme hledání
     resetujHledani(seznam);
-
-    // Přesuneme platné záznamy na místa těch neplatných
-    puts("Presunuji...");
-
-    int indexPlatny = MAXSEZNAM;
-    int indexNeplatny = -1;
-
-    while (true)
-    {
-        // Najdeme index dalšího platného prvku zprava
-        while (seznam->zaznam[indexPlatny].platny != true)
-        {
-            indexPlatny--;
-        }
-
-        // Najdeme index dalšího neplatného prvku zleva
-        while (seznam->zaznam[indexNeplatny].platny != false)
-        {
-            indexNeplatny++;
-        }
-
-        // Pokud jsme někde vylezli ze seznamu, nebo se indexy skřížili, tak toho necháme
-        if (indexPlatny < 0 || indexNeplatny >= MAXSEZNAM || indexNeplatny >= indexPlatny)
-        {
-            break;
-        }
-
-        // Ten platný dáme na místo toho neplatného
-        seznam->zaznam[indexNeplatny] = seznam->zaznam[indexPlatny];
-
-        // Původní platný zneplatníme
-        seznam->zaznam[indexPlatny].platny = false;
-    }
 
     // Seřadíme to. Třeba selection sortem. Nic jinýho se mi momentálně nechce vymýšlet.
     puts("Sortim...");
